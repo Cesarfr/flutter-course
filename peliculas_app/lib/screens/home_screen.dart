@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas_app/search/movie_search_delegate.dart';
 import 'package:provider/provider.dart';
 
 import 'package:peliculas_app/widgets/widgets.dart';
@@ -14,7 +15,10 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Películas en cines'),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            IconButton(
+                onPressed: () => showSearch(
+                    context: context, delegate: MovieSearchDelegate()),
+                icon: const Icon(Icons.search_outlined))
           ],
         ),
         body: SingleChildScrollView(
@@ -23,7 +27,11 @@ class HomeScreen extends StatelessWidget {
               CardSwiper(movies: moviesProvider.onDisplayMovies),
 
               // Listado horizontal de peliculas
-              const MovieSlider()
+              MovieSlider(
+                popularMovies: moviesProvider.popularMovies,
+                onNextPage: () => moviesProvider.getPopularMovies(),
+                title: 'Populares!!!',
+              )
             ],
           ),
         ));
